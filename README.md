@@ -1,4 +1,4 @@
-# JFuture 2019
+# JFuture
 
 ## Task
 Imagine that you're a developer working on Cinema Analytics System, who needs to collect data and make calculations on the following items:
@@ -8,9 +8,10 @@ Imagine that you're a developer working on Cinema Analytics System, who needs to
 2. Make the list of top 5 Directors of the highest-rated films.
 
 ## Running instruction
-In order to run the program, you need to use Maven.
+First things first, to run the program you need to have the installed mvn.
+When mvn is installed you should do some steps:
 
-1. Set current directory to project directory;
+1. Set current directory to project directory
 
 2. Build .war archive of the project using
 
@@ -21,7 +22,8 @@ In order to run the program, you need to use Maven.
 3. Deploy the built .war file to the any servlet container
 
 ## Algorithm description
-* Task 1:
+* The first task(dynamics):
+
     In the first task movies are being collected from the Wikipedia tables.
     Then it finds out the most popular genres of movies and counts amount of movies 
     of the each genre. Then the results are presented in the web page.
@@ -33,9 +35,11 @@ In order to run the program, you need to use Maven.
     
     ---
     
-* Task 2:
+* The second task(directors top):
+
     In the second task movies are being collected from the IMDb rating.
-    The list of the movies should be distinct by director, because we
-    need to have the list of directors.
+    We should find 5 directors of the highest-rated films, so this top
+    should be distinct(no repetition) by the directors.
     
-    For **information gathering** and **calculations** see [DirectorsParser](src/main/java/dev/jfuture/task/parser/director/DirectorsParser.java)
+    **Information gathering** and **calculations** you can see in [DirectorsParser](src/main/java/dev/jfuture/task/parser/director/DirectorsParser.java)
+    class
