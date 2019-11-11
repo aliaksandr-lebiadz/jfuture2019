@@ -12,22 +12,13 @@ In order to run the program, you need to use Maven.
 
 1. Set current directory to project directory;
 
-2. Build project using
+2. Build .war archive of the project using
 
     ```
-    mvn install
+    mvn compile war::war
     ```
 
-2. Run program using 
-
-    ```
-    mvn exec:java -Dexec.mainClass=dev.jfuture.task.TaskSolver
-    ```
-
-The program will gather the data and make calculations. Note, that it may take a while.
-After that files "dynamics.html" and "directors.html" will be created in the project directory. 
-
-You can see result examples in [dynamics.html](dynamics.html) and [directors.html](directors.html)
+3. Deploy the built .war file to the any servlet container
 
 ## Algorithm description
 * Task 1:
