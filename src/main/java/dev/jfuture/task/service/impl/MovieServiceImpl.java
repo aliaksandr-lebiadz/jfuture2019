@@ -18,6 +18,11 @@ import java.util.Map;
 
 public class MovieServiceImpl implements MovieService {
 
+    private static final int YEAR_2017 = 2017;
+    private static final int YEAR_2018 = 2018;
+    private static final int YEAR_2019 = 2019;
+    private static final int GENRES_LIMIT = 5;
+
     private MoviesCalculator calculator = new MoviesCalculator();
     private MoviesParser americanMoviesParser = new AmericanMoviesParser();
     private MoviesParser chineseMoviesParser = new ChineseMoviesParser();
@@ -47,12 +52,12 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<String> getPopularGenres() throws ServiceException{
         try{
-            List<Movie> americanMoviesOf2017 = americanMoviesParser.getMoviesByYear(2017);
-            List<Movie> americanMoviesOf2018 = americanMoviesParser.getMoviesByYear(2018);
-            List<Movie> americanMoviesOf2019 = americanMoviesParser.getMoviesByYear(2019);
-            List<Movie> chineseMoviesOf2017 = chineseMoviesParser.getMoviesByYear(2017);
-            List<Movie> chineseMoviesOf2018 = chineseMoviesParser.getMoviesByYear(2018);
-            List<Movie> chineseMoviesOf2019 = chineseMoviesParser.getMoviesByYear(2019);
+            List<Movie> americanMoviesOf2017 = americanMoviesParser.getMoviesByYear(YEAR_2017);
+            List<Movie> americanMoviesOf2018 = americanMoviesParser.getMoviesByYear(YEAR_2018);
+            List<Movie> americanMoviesOf2019 = americanMoviesParser.getMoviesByYear(YEAR_2019);
+            List<Movie> chineseMoviesOf2017 = chineseMoviesParser.getMoviesByYear(YEAR_2017);
+            List<Movie> chineseMoviesOf2018 = chineseMoviesParser.getMoviesByYear(YEAR_2018);
+            List<Movie> chineseMoviesOf2019 = chineseMoviesParser.getMoviesByYear(YEAR_2019);
             List<Movie> allMovies = new ArrayList<>();
             allMovies.addAll(americanMoviesOf2017);
             allMovies.addAll(americanMoviesOf2018);
@@ -61,7 +66,7 @@ public class MovieServiceImpl implements MovieService {
             allMovies.addAll(chineseMoviesOf2018);
             allMovies.addAll(chineseMoviesOf2019);
             MoviesCalculatorHelper moviesCalculatorHelper = new MoviesCalculatorHelper();
-            return moviesCalculatorHelper.getPopularGenresByLimit(allMovies, 5);
+            return moviesCalculatorHelper.getPopularGenresByLimit(allMovies, GENRES_LIMIT);
         } catch (WebsiteParsingException ex){
             throw new ServiceException(ex.getMessage(), ex);
         }
