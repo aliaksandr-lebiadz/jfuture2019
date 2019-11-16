@@ -2,6 +2,7 @@ package dev.jfuture.task;
 
 import dev.jfuture.task.command.Command;
 import dev.jfuture.task.command.factory.CommandFactory;
+import dev.jfuture.task.command.factory.impl.CommandFactoryImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,7 +30,8 @@ public class Controller extends HttpServlet {
             throws ServletException {
         try{
             String commandValue = request.getParameter(COMMAND_PARAMETER);
-            Command command = CommandFactory.create(commandValue);
+            CommandFactory factory = new CommandFactoryImpl();
+            Command command = factory.create(commandValue);
             String page = command.execute(request, response);
             RequestDispatcher dispatcher = request.getRequestDispatcher(page);
             dispatcher.forward(request, response);
