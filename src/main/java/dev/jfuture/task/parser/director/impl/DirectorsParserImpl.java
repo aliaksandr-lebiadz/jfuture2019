@@ -66,9 +66,13 @@ public class DirectorsParserImpl implements DirectorsParser {
     }
 
     private Optional<Movie> getMovieWithSuppliedDirector(List<Movie> movies, String director) {
-        return movies.stream()
-                .filter(m -> m.getDirector().equals(director))
-                .findFirst();
+        for(Movie movie : movies){
+            String movieDirector = movie.getDirector();
+            if(movieDirector.equals(director)){
+                return Optional.of(movie);
+            }
+        }
+        return Optional.empty();
     }
 
     private boolean needsReplace(Movie oldMovie, Movie movie) {
@@ -82,10 +86,14 @@ public class DirectorsParserImpl implements DirectorsParser {
             Element body = document.body();
             Element table = body.getElementsByClass(TABLE_CLASS).first();
             Elements rows = table.select(ROW_TAG);
-            rows.remove(HEADER_INDEX); // removing header
+            removeHeader(rows);
             return rows;
         } catch (IOException ex) {
             throw new WebsiteParsingException(ex.getMessage(), ex);
         }
+    }
+
+    private void removeHeader(Elements rows){
+        rows.remove(HEADER_INDEX);
     }
 }

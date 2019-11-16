@@ -27,18 +27,26 @@ public abstract class AbstractMoviesParser implements MoviesParser {
             String url = generateUrlByYear(year);
             Document document = Jsoup.connect(url).get();
             Elements tables = document.select(TABLE_TAG);
-            List<Movie> totalMovies = new ArrayList<>();
+            List<Movie> allMovies = new ArrayList<>();
             for(Element table : tables){
                 if(isMovieTable(table)){
                     List<Movie> movies = parseMovieTable(table, year);
-                    totalMovies.addAll(movies);
+                    allMovies.addAll(movies);
                 }
             }
-            return totalMovies;
+            return allMovies;
         } catch (IOException ex){
             throw new WebsiteParsingException(ex.getMessage(), ex);
         }
     }
+
+    protected abstract String getMovieTableQualifier();
+
+    protected abstract Movie buildMovie(Elements columns, int year);
+
+    protected abstract Map<Integer, String> getSources();
+
+    protected abstract String getGenresSeparator();
 
     /*package-private*/ List<String> separateGenres(String genresStr){
         String genresSeparator = getGenresSeparator();
@@ -46,26 +54,18 @@ public abstract class AbstractMoviesParser implements MoviesParser {
         return Arrays.asList(genresArray);
     }
 
-    /*package-private*/ String getByIndex(Elements cells, int index) {
-        Element element = cells.get(index);
+    /*package-private*/ String getByIndex(Elements columns, int index) {
+        Element element = columns.get(index);
         return element.text();
     }
-
-    protected abstract boolean isMovieTable(Element table);
-
-    protected abstract Movie buildMovie(Elements cells, int year);
-
-    protected abstract Map<Integer, String> getSources();
-
-    protected abstract String getGenresSeparator();
 
     private List<Movie> parseMovieTable(Element table, int year){
         Elements rows = table.select(ROW_TAG);
         removeHeader(rows);
         List<Movie> movies = new ArrayList<>();
         for(Element row : rows){
-            Elements cells = row.select(CELL_TAG);
-            Movie movie = buildMovie(cells, year);
+            Elements columns = row.select(CELL_TAG);
+            Movie movie = buildMovie(columns, year);
             movies.add(movie);
         }
         return movies;
@@ -78,6 +78,12 @@ public abstract class AbstractMoviesParser implements MoviesParser {
     private String generateUrlByYear(int year){
         Map<Integer, String> sources = getSources();
         return sources.get(year);
+    }
+
+    private boolean isMovieTable(Element table){
+        String movieTableQualifier = getMovieTableQualifier();
+        String tableText = table.text();
+        return tableText.contains(movieTableQualifier);
     }
 
 }

@@ -29,6 +29,18 @@ public class Movie {
         return new ArrayList<>(genres);
     }
 
+    public String getDirector() {
+        return director;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder(getClass().getName() + "@" +
@@ -43,17 +55,5 @@ public class Movie {
             }
         }
         return builder.toString();
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public String getTitle() {
-        return title;
     }
 }
